@@ -1,0 +1,1 @@
+create extension tdigest SCHEMA "public"

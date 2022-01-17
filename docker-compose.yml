@@ -1,0 +1,27 @@
+services:
+  db:
+    build: 
+      context: ./
+      dockerfile: ./Dockerfile.postgres 
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: username 
+      POSTGRES_PASSWORD: password 
+      POSTGRES_DB: yellow_taxi_trip_records
+
+  backend:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.python
+    restart: always
+    ports: 
+      - 80:80
+    links:
+      - "db:database"  
+    environment:
+      POSTGRES_USER: username 
+      POSTGRES_PASSWORD: password 
+      POSTGRES_DB: yellow_taxi_trip_records
+      POSTGRES_PORT: 5432
+      POSTGRES_ADDRESS: "0.0.0.0"
